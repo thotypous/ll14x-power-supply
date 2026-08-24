@@ -118,12 +118,20 @@ restante da face de solda.
 - **R3:** condenado; queimado e aberto, confirmado por medição;
 - **ZR1:** encapsulamento visualmente íntegro; estado elétrico ainda não testado;
 - **R4/C4:** identificação e estado ainda incertos;
-- **FUS1/FUSE2, IC1, D1/D2, DB1 e E1/E2:** verificar eletricamente.
+- **FUS1/FUSE2:** continuidade confirmada;
+- **DB1, D1/D2/D3, D7 e IC1:** triagem em modo diodo favorável, sem comprovação sob
+  alta tensão;
+- **T1:** enrolamentos contínuos e isolamento superior a 2 MΩ na escala disponível;
+- **E1–E4, PC817 e TL431:** sem curto detectável em circuito.
+
+As leituras completas e suas limitações estão em
+[`medicoes_diagnostico_LL14X.md`](medicoes_diagnostico_LL14X.md).
 
 ## 4. Estado da reconstrução
 
 - Toda a carbonização visível foi removida da placa.
 - A região foi planificada para receber um novo R3.
+- A trilha entre DRAIN de IC1 e o primário de T1 foi removida e permanece aberta.
 - Está planejada a fixação mecânica com resina epóxi **Araldite Hobby 10 min**.
 
 A remoção do carvão elimina o caminho condutivo visível, mas também altera espessura,

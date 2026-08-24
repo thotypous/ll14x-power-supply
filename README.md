@@ -16,6 +16,7 @@ família.
 
 - [Danos visíveis](docs/danos_placa_LL14X.md)
 - [Subsistema da fonte chaveada](docs/fonte_chaveada_LL14X.md)
+- [Medições e diagnóstico elétrico](docs/medicoes_diagnostico_LL14X.md)
 
 ## Simulações
 
