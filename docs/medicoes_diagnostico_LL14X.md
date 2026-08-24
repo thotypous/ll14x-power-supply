@@ -23,7 +23,7 @@ carbonizada.
 | Ponto/componente | Leitura | Interpretação atual |
 |---|---:|---|
 | pontas do multímetro em curto | 0,6 Ω | resistência de referência das pontas |
-| FUS1 | 0,6 Ω | continuidade; resistência indistinguível das pontas |
+| FUSE1 | 0,6 Ω | continuidade; resistência indistinguível das pontas |
 | FUSE2 | 0,6 Ω | continuidade; resistência indistinguível das pontas |
 | R3 original | infinito | queimado, aberto e posteriormente removido |
 | L1 | 0,7 Ω | continuidade; resistência efetiva muito baixa |
@@ -132,7 +132,7 @@ regulação sob polarização.
 
 ### Triagem estática favorável
 
-- FUS1 e FUSE2 com continuidade;
+- FUSE1 e FUSE2 com continuidade;
 - DB1 com quatro junções coerentes;
 - D1, D2, D3 e D7 sem curto/abertura detectável;
 - IC1 sem curto DRAIN–SOURCE;

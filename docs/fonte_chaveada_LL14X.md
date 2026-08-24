@@ -4,7 +4,7 @@
 **IC2 = PC817**.
 
 Sim, a região danificada **é** a fonte chaveada: ela ocupa a extremidade da placa onde
-estão ZR1/FUS1/FUSE2/C1 (entrada de rede), DB1/E1/E2 (primário), IC1/T1 (conversor) e
+estão ZR1/FUSE1/FUSE2/C1 (entrada de rede), DB1/E1/E2 (primário), IC1/T1 (conversor) e
 D7/E3/E4/IC2/IC3 (secundário). O arquivo
 [`modelos/fonte_chaveada_LL14X.cir`](../modelos/fonte_chaveada_LL14X.cir) simula esse
 subsistema.
@@ -19,7 +19,7 @@ na aplicação típica do LNK3604 e no layout (valores não legíveis nas fotos)
 | Ref | Parte | Pacote | Função |
 |-----|-------|--------|--------|
 | CON1 | conector 2 vias | TH | entrada de rede L/N (fio do filtro) |
-| FUS1 | fusível T3.15AL/AC250V | caixa retangular | proteção de sobrecorrente da linha |
+| FUSE1 | fusível T3.15AL/AC250V | caixa retangular | proteção de sobrecorrente da linha |
 | FUSE2 | fusível (2ª linha) | caixa retangular | proteção do neutro |
 | ZR1 | varistor (≈471K) **(típ.)** | disco | grampeamento de surto |
 | C1 | capacitor X2 0,22 µF/275 VAC **(típ.)** | caixa amarela | filtragem EMI diferencial |
@@ -43,7 +43,7 @@ na aplicação típica do LNK3604 e no layout (valores não legíveis nas fotos)
 
 ## 2. Nets / conexões (primário)
 
-- **NET-L**: CON1(1) → FUS1 → nó **LA**.
+- **NET-L**: CON1(1) → FUSE1 → nó **LA**.
 - **NET-N**: CON1(2) → FUSE2 → nó **N1**.
 - **Entre LA e N1** (paralelo): ZR1, C1, R(51k).
 - **LA → R3 → AC+** de DB1; **N1 → AC−** de DB1 (retorno).
@@ -73,7 +73,7 @@ na aplicação típica do LNK3604 e no layout (valores não legíveis nas fotos)
 IC1 chaveia o primário de T1 a ~66 kHz **(típ.)**; na desmagnetização, D7 entrega
 energia a E3/E4, gerando a saída principal (12 V é a hipótese atual). IC3 compara uma
 fração da saída com sua referência interna e controla o LED de IC2; IC2 fecha o laço
-até o FB de IC1. ZR1/C1/R3/RF1/FUS1/FUSE2 formam a frente de proteção e filtragem de
+até o FB de IC1. ZR1/C1/R3/RF1/FUSE1/FUSE2 formam a frente de proteção e filtragem de
 rede — região em que ocorreu o arco, embora ZR1 esteja visualmente íntegro.
 
 ## 5. Simulação reproduzível

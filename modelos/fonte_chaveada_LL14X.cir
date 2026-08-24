@@ -12,14 +12,14 @@
 
 .title Fonte média LL14X — LNK3604P
 
-* Valores confirmados visualmente: rede 220 V, FUS1 3,15 A, R3 = 33R0.
+* Valores confirmados visualmente: rede 220 V, FUSE1 3,15 A, R3 = 33R0.
 * Valores marcados como estimados devem ser substituídos após medição.
 .param VRMS=220 FLINE=50 ETA=0.80
 .param C_BULK=9.4u PMAX=8
 
 * 1) Entrada de rede, proteção e filtro
 VAC   nL    0     SIN(0 {VRMS*sqrt(2)} {FLINE})
-RFUS1 nL    nL1   0.05
+RFUSE1 nL   nL1   0.05
 RFUS2 0     nN1   0.05
 
 * ZR1 estimado como MOV 471. Em regime nominal ele é representado pela fuga;

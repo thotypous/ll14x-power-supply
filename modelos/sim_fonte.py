@@ -7,7 +7,7 @@ trechos; flyback representado por balanço médio de potência com controle PI.
 Sem Newton/SPICE: passo fixo e comportamento numérico reprodutível.
 
 Topologia funcional inferida das fotos (mesmas hipóteses do netlist ngspice):
-  CON1 -> FUS1/FUSE2 -> ZR1 // C1(X2) // R(51k) -> R3 -> DB1 -> E1//E2
+  CON1 -> FUSE1/FUSE2 -> ZR1 // C1(X2) // R(51k) -> R3 -> DB1 -> E1//E2
   -> T1 (flyback 1,5 mH) -> IC1 (chave 66 kHz)
   -> D7 -> E3 -> L1/L2 -> E4 (saída presumida de 12 V)
   -> IC3 (TL431C) -> IC2 (PC817) -> realimentação isolada de IC1.
@@ -111,7 +111,7 @@ def main():
                     I[b] -= g * VD
 
         # ---- frente de rede ----
-        G[IX["nL1"], IX["nL1"]] += 1 / RFUS          # FUS1 até a fonte vac
+        G[IX["nL1"], IX["nL1"]] += 1 / RFUS          # FUSE1 até a fonte vac
         I[IX["nL1"]] += vac / RFUS
         r(IX["nN1"], -1, 1 / RFUS)                   # FUSE2
         # varistor ZR1: dois diodos antissérie com joelho VCLAMP
