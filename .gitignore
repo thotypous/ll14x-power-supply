@@ -1,0 +1,16 @@
+# Resultados reproduzíveis das simulações
+resultados/*
+!resultados/.gitkeep
+
+# Caches e artefatos Python
+__pycache__/
+*.py[cod]
+
+# Exportações locais de sessões
+omp-session-*.html
+
+# Arquivos de editores e do sistema operacional
+.DS_Store
+Thumbs.db
+*.swp
+*~

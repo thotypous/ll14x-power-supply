@@ -1,0 +1,81 @@
+* ============================================================================
+* Fonte chaveada — placa de potência Electrolux LL14X / Continental LC14S
+* PCB WQP12-7601S.D.1-1 V1.1 — IC1 identificado como LNK3604P
+*
+* Modelo médio funcional para ngspice. A entrada de rede, as proteções, a ponte e
+* o barramento são explícitos. O flyback, IC1 e o laço IC3/IC2 são representados
+* por duas fontes de potência controladas pelo erro de V12. Isso evita inventar
+* a relação de espiras de T1 e o compensador e torna a simulação estável.
+*
+* Uso na raiz do repositório: ngspice -b modelos/fonte_chaveada_LL14X.cir
+* ============================================================================
+
+.title Fonte média LL14X — LNK3604P
+
+* Valores confirmados visualmente: rede 220 V, FUS1 3,15 A, R3 = 33R0.
+* Valores marcados como estimados devem ser substituídos após medição.
+.param VRMS=220 FLINE=50 ETA=0.80
+.param C_BULK=9.4u PMAX=8
+
+* 1) Entrada de rede, proteção e filtro
+VAC   nL    0     SIN(0 {VRMS*sqrt(2)} {FLINE})
+RFUS1 nL    nL1   0.05
+RFUS2 0     nN1   0.05
+
+* ZR1 estimado como MOV 471. Em regime nominal ele é representado pela fuga;
+* este modelo médio não se destina à análise de surtos.
+RVAR  nL1   nN1   1G
+
+CX2   nL1   nN1   0.22u
+RBLD  nL1   nN1   51k
+R3    nL1   a1    33
+RN    nN1   a2    0.01
+
+* 2) DB1 e barramento E1 // E2
+DDB1  a1    vb    D1N4007
+DDB2  a2    vb    D1N4007
+DDB3  0     a1    D1N4007
+DDB4  0     a2    D1N4007
+CBULK vb    0     {C_BULK}
+RLEAK vb    0     10Meg
+
+* 3) Flyback médio isolado e realimentação TL431C (IC3) + PC817 (IC2)
+* O negativo de E3 usa o nó 0 somente como referência numérica. Isso não representa
+* ligação galvânica com o primário na placa real.
+RGND  gndS  0     1Meg
+RSNS  v12   vsense 1k
+CSNS  vsense gndS 10u
+
+* Potência comandada: 0,30 W em equilíbrio e ganho proporcional de 20 W/V.
+* PMAX deriva de Lp=1,5 mH, ILIM=0,40 A e 66,7 kHz; ILIM permanece estimado.
+BPRI  vb    0     I={limit(0.30+20*(12-V(vsense,gndS)),0,PMAX)/(ETA*max(V(vb),50))}
+BSEC  0     vE3   I={limit(0.30+20*(12-V(vsense,gndS)),0,PMAX)/max(V(vE3),1)}
+
+* E3 e E4 não estão em paralelo: L2 fica entre os positivos e L1 entre os
+* negativos. Como este é um modelo médio de regime DC, L1/L2 são representados
+* somente por resistências série de 0,2 ohm. Valores inferidos pelas cores:
+* L1 laranja-laranja-dourado-prata = 3,3 µH ±10 %;
+* L2 marrom-preto-laranja-prata = 10 mH ±10 %. Confirmar com medição.
+CE3   vE3   0     680u
+RL2DC vE3   v12   0.2
+RL1DC 0     gndS  0.2
+CE4   v12   gndS  220u
+RL12  v12   gndS  1.2k
+RL12B v12   gndS  22k
+
+.model D1N4007 D(Is=1n Rs=0.1 N=1.2 Cjo=10p Bv=1000 Ibv=10u)
+.options method=gear reltol=1e-4 vntol=1e-6 abstol=1e-10
+.ic V(gndS)=0 V(vE3)=12 V(vb)=300 V(v12)=12 V(vsense)=12
+.tran 10u 80m 0 10u
+.meas tran VBmed  AVG V(vb)        FROM=60m TO=80m
+.meas tran VBmin  MIN V(vb)        FROM=60m TO=80m
+.meas tran VBmax  MAX V(vb)        FROM=60m TO=80m
+.meas tran V12med AVG V(v12)       FROM=60m TO=80m
+
+.control
+run
+wrdata resultados/ll14x_fonte.dat v(vb) v(v12)
+quit
+.endc
+
+.end
