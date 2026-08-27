@@ -14,3 +14,11 @@ omp-session-*.html
 Thumbs.db
 *.swp
 *~
+
+# infra do agente
+.codex
+.playwright-mcp
+playwright-mcp-*.json
+
+# contém dados pessoais
+pesquisa_compras_*.md
