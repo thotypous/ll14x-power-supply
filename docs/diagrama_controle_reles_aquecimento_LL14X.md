@@ -2,7 +2,7 @@
 
 | Campo | Identificação |
 |---|---|
-| Data do levantamento | **26/08/2026** |
+| Data do levantamento | **26–28/08/2026** |
 | Placa | **WQP12-7601S.D.1-1 V1.1**, nº **17176000033271** |
 | Aplicação | lava-louças Electrolux LL14X, versão para rede de **127 V** |
 
@@ -265,8 +265,19 @@ fechado **[D]**.
 
 O chicote foi rastreado e há continuidade até ambos os conectores do fluxostato
 **[M]**. Assim, a cadeia externa confirmada é `P02 → resistência → fluxostato →
-CON1(N)`; o único estado ainda desconhecido nessa cadeia é o fechamento do contato
-interno do fluxostato sob pressão de circulação.
+CON1(N)`.
+
+Com a máquina em posição normal e no instante em que o ciclo deveria aquecer, o
+fluxostato foi desconectado do chicote e medido diretamente: seu contato fechou
+(continuidade) durante a circulação **[M]**. Isso confirma o seu funcionamento
+hidráulico e elimina o fluxostato como causa presente de circuito aberto.
+
+No mesmo ciclo, P01/P02 foram desconectados do chicote, mantendo os terminais da
+placa isolados da rede, e medidos diretamente: houve continuidade entre P01 e P02 no
+instante de aquecimento **[M]**. O resultado confirma o comando da MCU, Q9, a bobina,
+o contato de RY5 e as trilhas de P01/P02 **no estado atual do reparo**. Como o teste
+ocorreu após refazer as trilhas, ele não permite concluir se a versão anterior do
+reparo era a causa da ausência de aquecimento.
 
 O mesmo manual estabelece duas referências úteis para os demais chicotes de potência:
 
@@ -479,23 +490,34 @@ Já foi observado na máquina:
 - válvula de entrada funcionando;
 - bomba de circulação funcionando com pressão;
 - bomba de drenagem funcionando;
-- ausência de aquecimento em programa que deveria aquecer;
+- em testes iniciais curtos, a água ainda pareceu fria; como o tempo de circulação
+  foi pequeno, essa observação **não comprova ausência de aquecimento**;
 - NTC e chicote medindo **12,1 kΩ**, valor compatível com aproximadamente 20 °C;
 - resistência de aquecimento contínua, embora a leitura anterior de 7–8 Ω divirja da
   especificação de aproximadamente 14 Ω do manual e o multímetro tenha apresentado
   leituras inconsistentes de baixa resistência;
 - bobina de RY5 contínua, aproximadamente 270 Ω;
-- P01/P02 sofreram dano mecânico conhecido e tiveram trilhas reparadas.
+- P01/P02 sofreram dano mecânico conhecido e tiveram trilhas refeitas; no teste do
+  ciclo, o contato de RY5 fechou até os dois fast-ons reparados;
+- fluxostato fechou durante circulação real, quando medido isoladamente;
+- após a remontagem completa, foram medidos **123 Vca RMS diretamente entre os
+  terminais da resistência** durante a circulação no programa Pesado;
+- depois de alguns minutos, a parede externa da cuba ficou claramente quente,
+  confirmando o aquecimento da água sob carga real.
 
-O defeito de aquecimento está, portanto, concentrado nos seguintes blocos:
+Os testes dinâmicos confirmam, no estado atual, o funcionamento de toda a cadeia de
+aquecimento: comando da MCU, Q9, bobina e contato de RY5, trilhas reparadas de
+P01/P02, resistência, fluxostato e chicote. A medição de 123 Vca e o aquecimento da
+cuba também constituem um teste funcional do caminho de potência sob carga.
 
-1. reparos e resistência de contato em P01/P02;
-2. contato de potência interno de RY5;
-3. alimentação localizada da bobina de RY5;
-4. Q9 e sua rede de base;
-5. saída específica do microcontrolador;
-6. fluxostato hidráulico externo, que está em série com a resistência e permanece
-   aberto sem pressão/fluxo, devendo fechar com pressão e nível de água atingido.
+Não é possível concluir que o reparo anterior de P01/P02 causava falta de
+aquecimento, porque os primeiros testes foram breves e as trilhas foram refeitas
+antes dos testes conclusivos. Ainda assim, refazer a conexão foi necessário: o bip
+de continuidade utiliza corrente muito baixa e não comprova que uma trilha
+mecanicamente danificada suporte os aproximadamente 9 A do aquecedor. Como
+verificação de durabilidade, ainda convém inspecionar P01/P02, fast-ons e RY5 depois
+de um ciclo completo, procurando aquecimento localizado, escurecimento ou odor
+anormal.
 
 A operação dos relés menores reduz fortemente a probabilidade de falha geral nas
 rails de 12 V ou 5 V.

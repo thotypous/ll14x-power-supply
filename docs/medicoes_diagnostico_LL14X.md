@@ -1,9 +1,10 @@
 # Medições e diagnóstico elétrico — placa LL14X
 
-Data do registro: **24/08/2026**
+Período do registro: **24–28/08/2026**
 
-Estado da placa: desenergizada, R3 removido e trilha DRAIN–T1 removida na região
-carbonizada.
+O documento começou como registro da placa desenergizada, com R3 e a trilha
+DRAIN–T1 removidos. As seções finais registram a reconstrução e os testes energizados
+posteriores.
 
 ## 1. Instrumentação e método
 
@@ -11,7 +12,8 @@ carbonizada.
 - Medidor LCR caseiro disponível, mas inadequado para estas medições em circuito; não
   foi usado para evitar dessoldagem.
 - Osciloscópio disponível somente com sonda passiva ×10; não há sonda diferencial.
-- Não há transformador de isolamento nem lâmpada limitadora disponíveis no momento.
+- Não há transformador de isolamento. Posteriormente foi obtida e utilizada uma
+  lâmpada incandescente de 40 W como limitador na primeira energização.
 - Valores resistivos abaixo devem ser tratados como leituras brutas; a diferença para
   0,6 Ω serve apenas como indicação aproximada, não como medição de precisão.
 - Testes de semicondutores feitos no modo diodo, sem dessoldar componentes.
@@ -125,10 +127,12 @@ regulação sob polarização.
 
 ## 9. Diagnóstico consolidado
 
-### Falha confirmada
+### Falha original confirmada
 
-- **R3:** carbonizado, aberto e removido.
-- **Trilha DRAIN–T1:** carbonizada e removida; conexão permanece aberta.
+- **R3:** carbonizado, aberto e removido; posteriormente substituído por 33 Ω, 1206.
+- **Trilha DRAIN–T1:** carbonizada e removida; posteriormente reconstruída.
+- **P01/P02:** ilhas/trilhas danificadas mecanicamente ao retirar os fast-ons;
+  posteriormente refeitas e reforçadas.
 
 ### Triagem estática favorável
 
@@ -140,7 +144,7 @@ regulação sob polarização.
 - E1–E4 sem curto de baixa resistência;
 - PC817 e TL431 sem curto detectável.
 
-### Ainda não comprovado
+### Limitações que permanecem
 
 - estado elétrico de ZR1;
 - capacitância e ESR de E1–E4;
@@ -148,19 +152,35 @@ regulação sob polarização.
 - bloqueio em alta tensão de DB1, D1–D3, D7 e IC1;
 - CTR do PC817 e regulação do TL431;
 - resistência de isolamento em tensão apropriada;
-- funcionamento energizado e tensões das rails.
+- resistência de contato de P01/P02 medida em miliohms; seu funcionamento sob carga,
+  contudo, foi confirmado pelo teste do aquecedor.
 
-## 10. Condições antes da primeira energização
+## 10. Condições usadas na primeira energização
 
-1. Instalar R3 de 33 Ω com classe de pulso, potência, tensão e comportamento antichama
-   compatíveis com o componente original.
-2. Reconstruir DRAIN–T1 com percurso curto e fio de isolação nominal documentada,
-   preferencialmente 1 kV; não depender apenas de epóxi como isolante.
-3. Repetir continuidade de R3, DRAIN–T1 e ausência de curtos para trilhas adjacentes.
-4. Validar distâncias e isolamento da região reconstruída.
-5. Usar transformador de isolamento e limitador com lâmpada incandescente no primeiro
-   teste. A lâmpada limita corrente, mas não fornece isolamento.
-6. Não conectar sonda passiva ×10 ao primário. Medição do DRAIN exige sonda diferencial
-   apropriada para alta tensão.
+Antes da energização, R3 e DRAIN–T1 foram reconstruídos e repetiram-se as verificações
+de continuidade e ausência de curtos. O primeiro teste utilizou lâmpada incandescente
+de 40 W em série. A lâmpada limitou a corrente, mas não forneceu isolamento
+galvânico; a sonda passiva ×10 não foi conectada ao primário.
 
-Estado atual: **não energizar**; R3 e a ligação DRAIN–T1 ainda estão abertos.
+## 11. Testes funcionais posteriores
+
+| Teste | Resultado | Conclusão limitada |
+|---|---:|---|
+| alimentação da bobina de RY5, terminal superior de D9 para GND | ≈12,8 Vcc | rail da bobina presente |
+| NTC medido pelo conector da placa | 12,1 kΩ | valor plausível em temperatura ambiente |
+| bobina de RY5 | ≈270 Ω | enrolamento contínuo |
+| P01–P02 durante a fase de aquecimento, desconectados do chicote | continuidade | comando, Q9, bobina, contato e trilhas fecham no estado reparado |
+| fluxostato durante circulação, desconectado eletricamente | continuidade | contato fecha sob circulação real |
+| tensão diretamente na resistência, máquina remontada | **123 Vca RMS** | cadeia completa fornece tensão de rede ao aquecedor |
+| temperatura após alguns minutos no programa Pesado | parede externa da cuba claramente quente | aquecimento efetivo confirmado |
+
+Os primeiros ensaios em que a água pareceu fria duraram pouco tempo de circulação e
+não demonstram que o aquecedor estivesse inoperante. Como P01/P02 foram refeitos antes
+dos testes conclusivos, também não é possível atribuir retrospectivamente uma falta
+de aquecimento ao reparo anterior. O reforço foi, ainda assim, necessário para uma
+conexão que conduz aproximadamente 9 A: continuidade em baixa corrente não comprova
+capacidade de condução sob carga.
+
+Estado atual: **fonte e aquecimento funcionando na máquina**. Ainda convém inspecionar
+P01/P02, fast-ons e RY5 após um ciclo completo para detectar aquecimento localizado,
+odor ou escurecimento.

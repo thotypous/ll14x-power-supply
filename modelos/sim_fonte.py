@@ -7,9 +7,10 @@ trechos; flyback representado por balanço médio de potência com controle PI.
 Sem Newton/SPICE: passo fixo e comportamento numérico reprodutível.
 
 Topologia funcional inferida das fotos (mesmas hipóteses do netlist ngspice):
-  CON1 -> FUSE1/FUSE2 -> ZR1 // C1(X2) // R(51k) -> R3 -> DB1 -> E1//E2
+  CON1 -> FUSE1/FUSE2 -> ZR1 // C1(X2) // R(51k) -> R3 -> DB1
+  -> equivalência concentrada de E1/L1/L2/E2
   -> T1 (flyback 1,5 mH) -> IC1 (chave 66 kHz)
-  -> D7 -> E3 -> L1/L2 -> E4 (saída presumida de 12 V)
+  -> D7 -> E3 (saída modelada em 12 V; ligação de E4 ainda não rastreada)
   -> IC3 (TL431C) -> IC2 (PC817) -> realimentação isolada de IC1.
 
 Uso:  python3 modelos/sim_fonte.py             -> tensões de regime
@@ -27,8 +28,8 @@ RESULTS_DIR = PROJECT_ROOT / "resultados"
 # ----------------------------------------------------------------------------
 # Parâmetros (mesmas suposições do netlist ngspice; R3 lido da placa: 33R0)
 # ----------------------------------------------------------------------------
-F = 50.0
-VPK = 220.0 * np.sqrt(2)
+F = 60.0
+VPK = 127.0 * np.sqrt(2)
 FSW = 66.7e3                      # LNK3604 ~66 kHz
 LP = 1.5e-3                       # T1 marcado “EE16-1.5mH WM”
 ILIM = 0.40                       # limite de corrente ciclo-a-ciclo LNK3604
@@ -37,10 +38,8 @@ R3 = 33.0                         # SMD "33R0"
 RFUS = 0.05
 RBLD = 51e3
 C_X2 = 0.22e-6
-C_E12 = 4.7e-6 + 4.7e-6           # E1 // E2
-# Equivalência limitada ao regime DC; o netlist ngspice representa explicitamente
-# L1 e L2 entre E3 e E4.
-C_E34 = 680e-6 + 220e-6
+C_E12 = 4.7e-6 + 4.7e-6           # equivalência concentrada de E1/L1/L2/E2
+C_OUT = 680e-6                     # E3; ligação de E4 ainda não rastreada
 C_SNS = 10e-6
 R_SNS = 1e3
 P_MAX = 0.5 * LP * ILIM ** 2 * FSW   # ~8 W; ILIM ainda é estimado
@@ -61,13 +60,13 @@ M = len(N)
 def main():
     steps = int(TSTOP / DT)
     v = np.zeros(M)
-    v[IX["vb"]] = 300.0
+    v[IX["vb"]] = 170.0
     v[IX["v12"]] = 12.0
     v[IX["vsense"]] = 12.0
     # O histórico dos capacitores deve ser coerente com as condições iniciais.
     # Inicializá-lo em zero cria um degrau artificial, sobretudo em VSENSE, que
     # carrega indevidamente o integrador do laço durante os primeiros passos.
-    H = {"x2": 0.0, "vb": 300.0, "v12": 12.0, "sns": 12.0}
+    H = {"x2": 0.0, "vb": 170.0, "v12": 12.0, "sns": 12.0}
     st = {k: False for k in ("db1", "db2", "db3", "db4", "z1", "z2")}
     p_int = 0.0                   # integrador do laço (PI)
     rec = "--waveform" in sys.argv
@@ -138,7 +137,7 @@ def main():
 
         cap(IX["nL1"], IX["nN1"], C_X2, H["x2"])
         cap(IX["vb"], -1, C_E12, H["vb"])
-        cap(IX["v12"], -1, C_E34, H["v12"])
+        cap(IX["v12"], -1, C_OUT, H["v12"])
         cap(IX["vsense"], -1, C_SNS, H["sns"])
 
         # ---- flyback em modelo médio (balanço de energia por ciclo) ----
@@ -184,8 +183,8 @@ def main():
             for k in ("vb", "v12"):
                 acc[k].append(v[IX[k]])
 
-    print(f"VB   bulk após ponte (E1/E2) : {sums['vb'] / n_avg:7.1f} V méd")
-    print(f"V12  rail principal (E3/E4)  : {sums['v12'] / n_avg:7.2f} V méd")
+    print(f"VB   barramento primário equivalente : {sums['vb'] / n_avg:7.1f} V méd")
+    print(f"V12  saída secundária modelada (E3)  : {sums['v12'] / n_avg:7.2f} V méd")
     if rec:
         import csv
         RESULTS_DIR.mkdir(exist_ok=True)

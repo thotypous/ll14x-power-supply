@@ -53,29 +53,38 @@ ponto evidente de carbonização no restante da face de solda.
 - **C1, E1 e E2:** sem trinca, estufamento ou vazamento visível.
 - **T1, D3, D7, IC2, IC3, E3 e E4:** sem dano externo evidente.
 
-## 2. Danos confirmados
+## 2. Danos confirmados e reparos
 
 ### 2.1 R3 aberto e removido
 
 R3 carbonizou, passou a medir circuito aberto e foi removido. Seu valor original é
-**33 Ω**, conforme a marcação **33R0**. O componente substituto ainda não foi comprado;
-além da resistência e do encapsulamento, precisam ser confirmadas potência e classe
-de segurança apropriadas para a função na entrada da fonte.
+**33 Ω**, conforme a marcação **33R0**. Foi instalado um substituto SMD 1206 marcado
+`33R`. O multímetro indicou aproximadamente 25 Ω tanto nesse componente quanto em
+outro exemplar do mesmo lote; como o instrumento também apresenta erro variável em
+baixas resistências, essa leitura não foi tomada como valor real do resistor.
 
 ### 2.2 Substrato e cobre danificados
 
 A carbonização atingiu o substrato e a máscara de solda. Toda a carbonização visível
-já foi removida, e a região foi planificada para a reconstrução. Essa intervenção
-removeu o caminho condutivo de carvão visível, mas deixou perda de material, de cobre
-e de resistência mecânica local.
+foi removida, a região foi planificada e o substrato foi reconstruído com resina
+epóxi. A intervenção removeu o caminho condutivo de carvão visível; a conexão
+elétrica perdida foi reconstruída separadamente, sem depender da resina como
+condutor.
 
 ### 2.3 Conexão DRAIN–T1 interrompida
 
 A trilha entre o DRAIN de IC1 e o terminal correspondente do primário de T1
-carbonizou e foi removida. A ligação permanece deliberadamente aberta até ser
-reconstruída; a medição de continuidade confirma circuito aberto nesse trajeto.
+carbonizou, foi removida e posteriormente reconstruída com condutor de cobre. A
+fonte voltou a operar e a placa acionou as cargas da máquina.
 
-### 2.4 Itens sem dano confirmado
+### 2.4 Danos mecânicos em P01/P02
+
+As ilhas e trilhas dos fast-ons de potência P01/P02 foram danificadas mecanicamente
+ao retirar conectores muito presos. As conexões foram refeitas e depois reforçadas.
+P01/P02 conduzem a alimentação da resistência de aquecimento, portanto a simples
+continuidade pelo multímetro não era validação suficiente para esse reparo.
+
+### 2.5 Itens sem dano confirmado
 
 - Não há evidência visual de ruptura do encapsulamento de **ZR1**.
 - Não foi confirmado que R4, C4 ou ZD1 tenham sido destruídos.
@@ -108,7 +117,7 @@ Esses resultados são favoráveis apenas como triagem estática. Eles não compr
 isolamento na tensão de trabalho, capacitância, ESR, atuação de ZR1, funcionamento do
 optoacoplador ou regulação da fonte.
 
-## 4. Estado atual da reconstrução
+## 4. Estado atual da reconstrução e verificação
 
 Trabalho já realizado:
 
@@ -116,18 +125,23 @@ Trabalho já realizado:
 - toda a carbonização visível removida;
 - região afetada planificada;
 - trecho danificado da trilha DRAIN–T1 removido;
-- continuidade e ausência de curtos evidentes verificadas nos principais componentes.
+- R3 substituído por componente 1206 de 33 Ω;
+- substrato reconstruído com resina epóxi e conexão DRAIN–T1 refeita;
+- trilhas/ilhas de P01/P02 refeitas e reforçadas;
+- continuidade e ausência de curtos evidentes verificadas nos principais componentes;
+- primeira energização feita com lâmpada incandescente de 40 W em série;
+- placa instalada na máquina, com entrada, circulação e drenagem funcionando;
+- fechamento de RY5 entre P01/P02 e fechamento do fluxostato confirmados durante
+  circulação real;
+- com tudo reconectado, foram medidos **123 Vca RMS na resistência**, e a cuba ficou
+  claramente quente depois de alguns minutos no programa Pesado.
 
-Trabalho ainda pendente:
-
-- identificar e comprar um R3 de 33 Ω com dimensões, potência e características de
-  segurança adequadas;
-- reconstruir mecanicamente a área, considerando o uso planejado de resina epóxi
-  **Araldite Hobby 10 min**;
-- reconstruir a conexão DRAIN–T1 com condutor e isolamento apropriados para o primário;
-- conferir distâncias de escoamento, separação da baixa tensão e resistência de
-  isolamento depois do reparo;
-- repetir as verificações estáticas antes de qualquer energização.
+O revestimento conformável da placa ainda não foi reaplicado. A caixa, que de fábrica
+possuía passagens de chicote abertas e não vedadas, recebeu uma **vedação nova**:
+chicotes agrupados com fita de autofusão e os espaços restantes das aberturas
+retangulares preenchidos com silicone de cura neutra Orbquímica. Não se trata de
+restauração de uma vedação original; a ausência dela era a provável via de entrada
+dos insetos.
 
 ## 5. Interpretação atual do evento
 
@@ -137,16 +151,17 @@ condutivo, R3 abriu e a trilha de comutação entre IC1 e T1 foi danificada. A s
 temporal exata entre a abertura de R3 e a destruição da trilha não pode ser determinada
 pelas fotos.
 
-Até o momento, a triagem não encontrou curto estático em DB1, IC1 ou nos diodos, nem
-interrupção nos enrolamentos de T1. Isso reduz a evidência de falhas adicionais, mas
-não demonstra funcionamento sob tensão.
+A triagem não encontrou curto estático em DB1, IC1 ou nos diodos, nem interrupção nos
+enrolamentos de T1. Os testes posteriores sob tensão demonstraram funcionamento da
+fonte e das cargas, inclusive do aquecedor. A sequência temporal exata do dano
+original continua indeterminada.
 
 ## 6. Restrição de segurança
 
 A resina epóxi de uso geral não deve ser presumida como isolante certificado para a
 rede sem dados de tensão, temperatura, resistência a arco e comportamento antichama.
 Como não há transformador de isolamento nem sonda diferencial de alta tensão, o
-osciloscópio comum com sonda ×10 não deve ser conectado ao primário energizado. A placa
-não deve ser energizada antes da conclusão da reconstrução e de uma estratégia segura
-de limitação e isolamento. Se as distâncias elétricas e a resistência mecânica não
-puderem ser restabelecidas de forma confiável, a placa deverá ser substituída.
+osciloscópio comum com sonda ×10 não deve ser conectado ao primário energizado. A
+lâmpada em série limita corrente, mas não fornece isolamento galvânico. P01/P02 e os
+fast-ons devem ser reinspecionados após um ciclo completo, pois conduzem cerca de 9 A
+e um teste de continuidade não revela resistência de contato perigosa sob carga.

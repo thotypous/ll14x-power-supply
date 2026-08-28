@@ -17,6 +17,8 @@ família.
 - [Danos visíveis](docs/danos_placa_LL14X.md)
 - [Subsistema da fonte chaveada](docs/fonte_chaveada_LL14X.md)
 - [Medições e diagnóstico elétrico](docs/medicoes_diagnostico_LL14X.md)
+- [Diagrama dos relés e do aquecimento](docs/diagrama_controle_reles_aquecimento_LL14X.md)
+- [Firmware e compatibilidade da placa](docs/firmware_e_compatibilidade_placa_LL14X.md)
 
 ## Simulações
 
@@ -31,6 +33,8 @@ ngspice -b modelos/fonte_chaveada_LL14X.cir
 O modo `--waveform` grava `resultados/ll14x_ondas.csv`; o ngspice grava
 `resultados/ll14x_fonte.dat`.
 
-> **Segurança:** os modelos incluem um barramento próximo de 310 Vcc. Não energize
-> a placa carbonizada diretamente na rede. Ensaios físicos exigem isolamento,
-> limitação de corrente e procedimentos adequados para alta tensão.
+> **Segurança:** os modelos incluem um barramento de alta tensão. A placa foi
+> reconstruída e testada, mas ensaios físicos continuam envolvendo a rede elétrica.
+> Uma lâmpada em série limita corrente e não fornece isolamento galvânico; uma sonda
+> passiva de osciloscópio não deve ser conectada ao primário sem isolamento e técnica
+> de medição apropriados.
